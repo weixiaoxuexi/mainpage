@@ -31,10 +31,29 @@
 </template>
 
 <script>
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  methods: {
+    getMocksData() {
+      this.$http.get("/gethello").then(res => {
+        console.log(res)
+      })
+    },
+    getPostData() {
+      this.$http.post("/hello", {
+        "user": "lixu"
+      }).then(res => {
+        console.log(res)
+      })
+    },
+  },
+  mounted() {
+    this.getMocksData();
+    this.getPostData();
   }
 }
 </script>

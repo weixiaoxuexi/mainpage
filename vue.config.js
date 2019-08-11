@@ -35,42 +35,40 @@ module.exports = {
             errors: true
         },
         proxy: {
-            // change xxx-api/login => mock/login
-            // detail: https://cli.vuejs.org/config/#devserver-proxy
-            //   [process.env.VUE_APP_BASE_API]: {
-            //     target: `http://localhost:${port}/mock`,
-            //     changeOrigin: true,
-            //     pathRewrite: {
-            //       ['^' + process.env.VUE_APP_BASE_API]: ''
-            //     }
-            //   }
-            // },
-            after: require('./mock/mock-server.js')
-        },
-        configureWebpack: {
-            // provide the app's title in webpack's name field, so that
-            // it can be accessed in index.html to inject the correct title.
-            name: name,
-            resolve: {
-              alias: {
-                // @ 简写src路径
-                '@': resolve('src')
-              }
+        // change xxx-api/login => mock/login
+        // detail: https://cli.vuejs.org/config/#devserver-proxy
+          [process.env.VUE_APP_BASE_API]: {
+            target: `http://localhost:${port}/mock`,
+            changeOrigin: true,
+            pathRewrite: {
+              ['^' + process.env.VUE_APP_BASE_API]: ''
             }
           },
+        },
+        after: require('./mock/mock-server.js')
+    },
+    configureWebpack: {
+        // provide the app's title in webpack's name field, so that
+        // it can be accessed in index.html to inject the correct title.
+        name: name,
+        resolve: {
+            alias: {
+                // @ 简写src路径
+                '@': resolve('src')
+            }
+        }
+    },
 
-          // chainconfig   https://cli.vuejs.org/guide/webpack.html#chaining-advanced
-          chainWebpack(config) {
-
-            config.module
+    // chainconfig   https://cli.vuejs.org/guide/webpack.html#chaining-advanced
+    chainWebpack(config) {
+        config.module
             .rule('vue')
             .use('vue-loader')
             .loader('vue-loader')
             .tap(options => {
-              options.compilerOptions.preserveWhitespace = true
-              return options
+                options.compilerOptions.preserveWhitespace = true
+                return options
             })
             .end()
-          }
     }
 }
